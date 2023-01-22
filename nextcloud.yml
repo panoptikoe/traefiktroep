@@ -45,3 +45,7 @@ services:
       - "traefik.http.routers.nextcloud-secure.service=nextcloud"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
       - "traefik.docker.network=proxy"
+      
+networks:
+  proxy:
+    external: true
