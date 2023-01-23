@@ -1,20 +1,21 @@
 version: "3.8"
 
 volumes:
- nextcloud_aio_mastercontainer:
-   name: nextcloud_aio_mastercontainer
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer # This line is not allowed to be changed
+
 services:
- nextcloud:
-   image: nextcloud/all-in-one:latest
-   restart: unless-stopped
-   container_name: nextcloud-aio-mastercontainer
-   volumes:
-     - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-     - /var/run/docker.sock:/var/run/docker.sock:ro
-   ports:
-     - 8080:8080 # change the port on the left side if it's already in use on your host system.
-   environment:
-     - APACHE_PORT=11000  # change this port number if 11000 is already in use on your host system.
-     - APACHE_DISABLE_REWRITE_IP=1
-     - NEXTCLOUD_TRUSTED_DOMAINS=< nextcloud.your-super-domain.com > < 192.168.1.129 > # Your domain name + proxy host IP
-     - TRUSTED_PROXIES=< 192.168.1.129 > # proxy host IP
+  nextcloud:
+    image: nextcloud/all-in-one:latest # Must be changed to 'nextcloud/all-in-one:latest-arm64' when used with an arm64 CPU
+    restart: always
+    container_name: nextcloud-aio-mastercontainer # This line is not allowed to be changed
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config # This line is not allowed to be changed
+      - /var/run/docker.sock:/var/run/docker.sock:ro # May be changed on macOS, Windows or docker rootless. See the applicable documentation. If adjusting, don't forget to also set 'DOCKER_SOCKET_PATH'!
+    ports:
+      - 8080:8080
+    environment:
+     - APACHE_PORT=11000 
+     - APACHE_IP_BINDING=127.0.0.1
+     - NEXTCLOUD_TRUSTED_DOMAINS=cloud.4every1.net 192.168.178.44
+     - TRUSTED_PROXIES=192.168.178.44
