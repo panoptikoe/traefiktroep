@@ -1,11 +1,5 @@
 version: "3"
 
-networks:
-  gitea:
-    external: false
-  proxy:
-    external: true  
-
 services:
   server:
     image: gitea/gitea:1.18.1
@@ -55,3 +49,9 @@ services:
       - gitea
     volumes:
       - ./postgres:/var/lib/postgresql/data
+      
+networks:
+  gitea:
+    external: false
+  proxy:
+    external: true 
